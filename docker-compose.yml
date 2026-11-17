@@ -1,0 +1,19 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: ma_base_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - donnees_mongo:/data/db
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: le_messager_mqtt
+    ports:
+      - "1883:1883"
+    volumes:
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+
+volumes:
+  donnees_mongo:
