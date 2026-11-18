@@ -185,7 +185,7 @@ def topic_for(m: Machine) -> str:
 def run_realtime(fleet, broker: str = "localhost", period_s: float = 1.0,
                  seed: int = 42) -> None:
     rng = random.Random(seed)
-    client = mqtt.Client()
+    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
     client.reconnect_delay_set(min_delay=1, max_delay=30)
     client.connect(broker, 1883)
     client.loop_start()

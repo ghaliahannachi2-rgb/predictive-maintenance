@@ -76,18 +76,17 @@ def flush(force: bool = False) -> None:
 
 
 # ---------- MQTT ----------
-def on_connect(client, userdata, flags, rc):
-    if rc == 0:
+def on_connect(client, userdata, flags, reason_code, properties):
+    if reason_code == 0:
         print(f"[mqtt] connecté à {BROKER}:{PORT}")
         client.subscribe("factory/+/+/+/telemetry")
     else:
-        print(f"[mqtt] échec connexion rc={rc}")
+        print(f"[mqtt] échec connexion rc={reason_code}")
 
 
-def on_disconnect(client, userdata, rc):
-    if rc != 0:
-        print(f"[mqtt] déconnexion inattendue rc={rc}, reconnexion…")
-
+def on_disconnect(client, userdata, flags, reason_code, properties):
+    if reason_code != 0:
+        print(f"[mqtt] déconnexion inattendue rc={reason_code}, reconnexion…")
 
 def on_message(client, userdata, msg):
     try:
@@ -102,7 +101,7 @@ def on_message(client, userdata, msg):
 
 
 def main():
-    client = mqtt.Client()
+    client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
     client.reconnect_delay_set(min_delay=1, max_delay=30)
     client.on_connect    = on_connect
     client.on_disconnect = on_disconnect
