@@ -5,3 +5,4 @@ venv/
 .env
 *.csv
 .ipynb_checkpoints/
+ml/data/
