@@ -15,5 +15,17 @@ services:
     volumes:
       - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
 
+  postgres:
+    image: postgres:16
+    container_name: pm-postgres
+    environment:
+      POSTGRES_DB: usine
+      POSTGRES_USER: admin_usine
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
 volumes:
   donnees_mongo:
+  pgdata:
